@@ -1,0 +1,45 @@
+schema_version: 1
+id: imx8dxlevk
+type: board_profile
+human_doc: README.md
+owner: board-exec
+
+summary: i.MX8DXL EVK 板级事实入口，包含串口映射、下载接口、手动复位规则、M 核 loader 偏好、变体适用边界和 SDPS/FB 阶段证据。
+
+relations:
+  projects: []
+  compile_targets: []
+  software_stacks: []
+  release_packages: []
+  boards: []
+  tools:
+    - bcu
+    - serial-console
+    - uuu
+
+case_required_for:
+  - uuu_first_stage
+  - uuu_second_stage
+  - serial_log_capture
+  - board_reset_or_boot_mode_change
+
+warnings:
+  - The validated Serial Downloader connector on the current B0 LPDDR4 EVK specimen is J15/USB_OTG2; re-check the schematic and fresh probe for another board or revision.
+  - DXL reset policy depends on required evidence because BCU channel 1 and the M4 console share FT4232H if01.
+  - If M4 early log is required, complete BCU boot-mode work first, recover if01, arm all captures, and request physical RESET.
+  - If M4 log is explicitly excluded, the current B0 LPDDR4 specimen supports BCU reset while capturing only a-core/if02 and scfw/if03.
+  - Select the reference image from the current silicon revision, DDR, release, recipe, and loader; historical A1 assets are not a B0 baseline.
+  - The A1 regression plus second-stage flash_m4 flow is historical case evidence, not the default i.MX8DXL recipe.
+  - Prefer early boot flash.bin M-core loading on this DXL platform unless the case explicitly requires and validates bootaux or Linux remoteproc loading.
+  - Linux remoteproc attach-only does not mean Linux loaded the M core.
+  - SDPS to FB first-stage proof and existing FB second-stage writes are different observations.
+  - Serial silence alone does not prove board silence; check host serial setup and USB state.
+  - State-changing bcu and uuu actions require fresh probe before and after the action.
+
+evidence:
+  - README.md
+  - ../../tools/bcu/USAGE.md
+  - ../../tools/serial-console/USAGE.md
+  - ../../tools/serial-console/profiles/imx8dxlevk/README.md
+  - ../../tools/serial-console/profiles/imx8dxlevk/serial.yaml
+  - ../../tools/uuu/USAGE.md

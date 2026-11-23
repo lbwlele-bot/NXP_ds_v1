@@ -1,0 +1,40 @@
+schema_version: 1
+id: m_freertos_sdk_target
+type: compile_target
+human_doc: README.md
+owner: compile
+
+summary: M 核 FreeRTOS SDK 编译对象，负责独立 M 核产物或 flash.bin payload 输入。
+
+relations:
+  projects:
+    - mcuxsdk-core
+  compile_targets:
+    - flashbin
+  software_stacks:
+    - rte
+  release_packages:
+    - m_freertos_sdk_package
+  boards: []
+  tools:
+    - compile-tool
+
+case_required_for:
+  - extracted_sdk
+  - patched_sdk_project
+  - generated_mcore_payload
+
+warnings:
+  - The default build entry is the board/version matched release package, not mcuxsdk-core.
+  - Directory-missing SDK packages return USER_INPUT_REQUIRED; the resource owner first checks and prepares authorized shared sources. Only external acquisition outside authorized scope, or genuine credential/permission/license/version-decision gaps, go to the user; do not substitute nearby versions.
+  - SDK_2_9_0_EVK-MIMX8DXL requires GCC 9.2.1 and compile-tool blocks a conflicting compiler identity.
+  - A built M core payload is not the same as a complete flash.bin.
+  - Public builds must use records/compile/m_freertos_sdk/compile.yaml; backend, commands, outputs, and internal requests are tool-owned.
+  - Source builds publish sibling ELF and BIN; flash.bin consumes only nxp.mcore.bin.
+
+evidence:
+  - README.md
+  - COMPILE_CHECKLIST.yaml
+  - ../../release_packages/m_freertos_sdk/PACKAGES.yaml
+  - ../../release_packages/m_freertos_sdk/README.md
+  - ../../software_stacks/rte.md

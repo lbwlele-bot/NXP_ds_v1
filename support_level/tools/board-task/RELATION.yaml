@@ -1,0 +1,27 @@
+schema_version: 1
+id: board-task
+type: host_tool
+human_doc: USAGE.md
+owner: board-exec
+summary: DeepSeek 的确定性板级执行接口，把 BCU、UUU、serial-console 组合成带身份、READY、日志和阶段验收的事务。
+relations:
+  boards:
+    - imx943evk19b1-18A177
+  tools:
+    - bcu
+    - uuu
+    - serial-console
+case_required_for:
+  - every_operation
+warnings:
+  - Each selected case provides records/board-task.yaml; no default lesson artifact or authorization.
+  - The 2026-11-17 refactor is offline-tested only; older hardware evidence does not validate this version.
+  - Current profile is deliberately limited to FTDI 18A177; another specimen requires a reviewed profile.
+  - MCP fixed operations are real host and board actions, not a simulator.
+  - EEPROM controller identity, replaceable module identity, DDR and artifact identity are separate fields.
+  - A successful command is not a board PASS; inspect ledger and raw logs.
+evidence:
+  - USAGE.md
+  - ../../work/2026-11-17-workspace-scope-repair/records/verification.md
+  - profiles/imx943evk19b1-18A177.yaml
+  - ../../work/2026-11-02-imx943-board-tools-lesson/README.md

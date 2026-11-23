@@ -1,0 +1,19 @@
+schema_version: 1
+id: imx943evk19b1
+type: board_knowledge
+human_doc: README.md
+owner: board-exec
+relations:
+  tools:
+    - board-task
+    - bcu
+    - uuu
+    - serial-console
+warnings:
+  - BCU board id and EEPROM Board Info identify the controller/carrier; they do not uniquely identify a replaceable core module or DDR artifact.
+  - FTDI 18A177 is a verified 15x15 SoC A0 LPDDR4 specimen on a B1 carrier even though EEPROM text says 19x19 EVK.
+  - Use current case evidence for runtime stage; historical success does not make a fresh reset PASS.
+evidence:
+  - README.md
+  - ../../work/2026-11-02-imx943-board-tools-lesson/README.md
+  - ../../tools/board-task/profiles/imx943evk19b1-18A177.yaml

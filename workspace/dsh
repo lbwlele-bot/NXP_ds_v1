@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+workspace_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+base_dsh="$workspace_dir/../support_level/tools/deepseek-harness/dsh"
+board_patch="$workspace_dir/../support_level/tools/board-task/harness.patch.yml"
+cd -- "$workspace_dir"
+
+# Board tools are a workspace capability, not a one-off lesson overlay. Keep
+# launcher/meta commands untouched; normalize profile launches so this Harness
+# version receives --profile explicitly before overlays.
+if [[ $# -ge 1 && "$1" == "plugin" ]]; then
+    exec "$base_dsh" "$@"
+fi
+if [[ $# -ge 2 && "$1" == "--profile" ]]; then
+    profile="$2"
+    shift 2
+    exec "$base_dsh" --profile "$profile" --patch "$board_patch" "$@"
+fi
+if [[ $# -ge 1 && "$1" =~ ^(web|headless|tui|acp)$ ]]; then
+    profile="$1"
+    shift
+    exec "$base_dsh" --profile "$profile" --patch "$board_patch" "$@"
+fi
+exec "$base_dsh" "$@"

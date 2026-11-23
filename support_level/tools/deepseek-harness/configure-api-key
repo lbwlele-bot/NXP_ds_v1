@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+"""Store a locally entered DeepSeek key without shell history or terminal echo."""
+import getpass
+import argparse
+import os
+from pathlib import Path
+import re
+import tempfile
+
+
+def main():
+    parser = argparse.ArgumentParser(description="在本机配置 DeepSeek API key，不回显内容")
+    parser.add_argument("--from-file", type=Path, help="从单行密钥文件读取")
+    args = parser.parse_args()
+    support = Path(__file__).resolve().parents[2]
+    runtime_home = support / "runtime" / "deepseek-harness"
+    runtime_home.mkdir(parents=True, exist_ok=True, mode=0o700)
+    destination = runtime_home / ".env"
+    previous = destination.read_text(encoding="utf-8") if destination.exists() else ""
+    key = (args.from_file.read_text(encoding="utf-8-sig").strip()
+           if args.from_file else getpass.getpass("DeepSeek API key（输入不回显）: ").strip())
+    if not key or not re.fullmatch(r"[A-Za-z0-9_.-]+", key):
+        raise SystemExit("未保存：密钥为空或含不支持的字符。")
+    lines = [line for line in previous.splitlines()
+             if not re.match(r"^\s*(?:export\s+)?DEEPSEEK_API_KEY\s*=", line)]
+    lines.append("DEEPSEEK_API_KEY=" + key)
+    fd, temporary = tempfile.mkstemp(prefix=".env-", dir=runtime_home)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write("\n".join(lines) + "\n")
+        os.replace(temporary, destination)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+    print("API key 已保存到本环境，文件权限为 600；密钥内容不会输出。")
+
+
+if __name__ == "__main__":
+    main()

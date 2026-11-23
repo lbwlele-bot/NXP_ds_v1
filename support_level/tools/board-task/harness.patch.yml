@@ -1,0 +1,11 @@
+- insert:
+    - id: mcp-board-task
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: board_task
+        transport: stdio
+        command: /usr/bin/python3
+        args:
+          - /home/ives/桌面/NXP_ds_v1/support_level/tools/board-task/board-task-mcp
+        toolCallTimeoutMs: 180000
+        failOnStartupError: true

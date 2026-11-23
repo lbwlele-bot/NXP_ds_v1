@@ -1,0 +1,14 @@
+# Initial teacher-supervised sessions: no writable workspace and no approval UI.
+- id: sandbox-policy
+  config:
+    mode: read-only
+- id: approval
+  config:
+    policy: never
+- id: permission
+  config:
+    defaultPreset: read-only
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: never

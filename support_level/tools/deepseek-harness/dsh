@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+tool_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+support_dir="$(cd -- "$tool_dir/../.." && pwd)"
+export DSH_HOME="$support_dir/runtime/deepseek-harness"
+export DSH_AGENTS_HOME="$support_dir/runtime/agents"
+export PATH="$tool_dir/runtime/node-v24.22.2-linux-x64/bin:$PATH"
+unset NODE_TLS_REJECT_UNAUTHORIZED NODE_OPTIONS
+exec "$tool_dir/runtime/node-v24.22.2-linux-x64/bin/node" \
+  "$tool_dir/runtime/app/node_modules/@deepseek-ai/dsh/lib/bin.js" "$@"

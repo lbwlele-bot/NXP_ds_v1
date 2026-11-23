@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+from compile_tool.cli import main
+from compile_tool.common import ToolError as RequestError
+from compile_tool.request import (
+    execute_v1 as execute_request,
+    load_request,
+    normalize_request,
+    render_report,
+)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

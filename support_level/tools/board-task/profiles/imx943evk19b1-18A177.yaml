@@ -1,0 +1,22 @@
+schema_version: 1
+id: imx943evk19b1-18A177
+executor: imx943-a0-lpddr4
+scope: registered lab specimen; fresh identity required for every task
+controller_identity:
+  bcu_board: imx943evk19b1
+  ftdi_serial: 18A177
+  soc_revision: A0
+  pmic: MFS5600
+target_module_identity:
+  carrier_revision: B1
+  soc_package: 15x15
+  ddr: LPDDR4
+  warning: Replaceable module identity must be confirmed for the current task, not inferred from EEPROM.
+artifact_target:
+  carrier: i.MX943 EVK B1
+  module: i.MX943 15x15 SoC A0
+  ddr: LPDDR4
+serial:
+  profile: imx943evk19b1
+  a_core: if02
+  sm: if03

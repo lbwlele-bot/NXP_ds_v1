@@ -1,0 +1,41 @@
+schema_version: 1
+id: imx943evk19a0
+type: board_profile
+human_doc: README.md
+owner: board-exec
+
+summary: i.MX943 EVK 19x19 A0 板级事实入口，包含 bcu、uuu、串口和保留核约束。
+
+relations:
+  projects: []
+  compile_targets: []
+  software_stacks: []
+  release_packages: []
+  boards: []
+  tools:
+    - serial-console
+    - uuu
+    - bcu
+
+case_required_for:
+  - bcu_reset
+  - boot_mode_change
+  - uuu_transfer
+  - serial_log_capture
+  - mcore_payload_probe
+
+warnings:
+  - bcu is a strong board-state signal for this board, but it does not prove runtime success.
+  - Confirm A0 versus B1 from FTDI EEPROM before reset; the profiles require opposite SW7-1 settings.
+  - On the current A0 specimen, BCU GPIO access and reset fail even with SW7-1 ON; use physical power cycle until that path is repaired.
+  - Follow the packaged imx943evk19a0 serial profile for onboard interface roles and BCU channel 1 recovery.
+  - m33_0 is a reserved SMFW core and must not be treated as a free case target.
+  - Reset, uuu success, or serial silence cannot skip the boot-stage probe.
+
+evidence:
+  - README.md
+  - ../../tools/serial-console/USAGE.md
+  - ../../tools/serial-console/profiles/imx943evk19a0/README.md
+  - ../../tools/serial-console/profiles/imx943evk19a0/serial.yaml
+  - ../../tools/uuu/USAGE.md
+  - ../../tools/bcu/USAGE.md

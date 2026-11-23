@@ -1,0 +1,45 @@
+schema_version: 1
+id: serial-console
+type: host_tool
+human_doc: USAGE.md
+owner: board-exec
+
+summary: 可独立发布的通用 i.MX 串口工具包，按 USB 物理适配器探测接口，并由内置 board profile 解析 role、抓日志和发送命令。
+
+relations:
+  projects: []
+  compile_targets: []
+  software_stacks: []
+  release_packages: []
+  boards:
+    - imx8dxlevk
+    - imx93evk14
+    - imx943evk19a0
+    - imx95evk19
+  tools: []
+
+case_required_for:
+  - serial_log_capture
+  - serial_send_command
+  - uboot_stop
+  - interactive_serial_session
+
+warnings:
+  - Serial output or silence alone does not prove board state.
+  - When reset-start logs matter, start capture-set first and do not trigger reset until every selected reader is READY.
+  - READY means every selected port is open and every reader has completed at least one successful low-level read call.
+  - Unknown adapters are captured as ordered ports; the tool must not guess firmware or core roles.
+  - Reset policy is board-specific and is not selected or executed by this tool.
+  - send, uboot-stop, and interactive sessions can affect boot or runtime state; board-exec fresh probe is still required before and after state-changing use.
+  - Board-specific serial facts live in profiles/<board>/serial.yaml and are packaged with this tool.
+  - Non-serial board facts and reset ownership remain outside this tool.
+  - Raw serial output should be saved under the current case logs.
+
+evidence:
+  - USAGE.md
+  - PROFILE_SCHEMA.md
+  - profiles/README.md
+  - profiles/imx8dxlevk/serial.yaml
+  - profiles/imx93evk14/serial.yaml
+  - profiles/imx943evk19a0/serial.yaml
+  - profiles/imx95evk19/serial.yaml

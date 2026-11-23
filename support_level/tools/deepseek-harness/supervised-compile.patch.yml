@@ -1,0 +1,15 @@
+# Teacher-invoked only.  The model may write the DS case and call compile-tool;
+# compile-tool remains the authority for every real build command.
+- id: sandbox-policy
+  config:
+    mode: danger-full-access
+- id: approval
+  config:
+    policy: never
+- id: permission
+  config:
+    defaultPreset: supervised-compile
+    presets:
+      supervised-compile:
+        sandbox: danger-full-access
+        approval: never

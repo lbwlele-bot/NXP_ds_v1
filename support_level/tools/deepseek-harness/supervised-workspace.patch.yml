@@ -1,0 +1,16 @@
+# Teacher-invoked workspace maintenance. The lesson prompt must still bound the
+# allowed files and explicitly forbid build/board actions when they are out of
+# scope. Board MCP loading is controlled separately by the teacher runner.
+- id: sandbox-policy
+  config:
+    mode: danger-full-access
+- id: approval
+  config:
+    policy: never
+- id: permission
+  config:
+    defaultPreset: supervised-workspace
+    presets:
+      supervised-workspace:
+        sandbox: danger-full-access
+        approval: never

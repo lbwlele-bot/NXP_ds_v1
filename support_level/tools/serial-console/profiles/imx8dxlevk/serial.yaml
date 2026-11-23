@@ -1,0 +1,70 @@
+schema_version: 2
+board: imx8dxlevk
+profile_status: verified
+adapter:
+  name: FT4232H Quad HS USB-UART/FIFO IC
+  usb_id: "0403:6011"
+  interface_count: 4
+baudrate: 115200
+format: 8N1
+prefer_by_id: true
+ports:
+  first-com:
+    order: 1
+    interface: if00
+    by_id: usb-FTDI_Quad_RS232-HS-if00-port0
+    tty: /dev/ttyUSB0
+    description: First enumerated COM port; no default runtime log role currently assigned
+    default_capture: false
+    required: false
+    status: verified
+  m4:
+    order: 2
+    interface: if01
+    by_id: usb-FTDI_Quad_RS232-HS-if01-port0
+    tty: /dev/ttyUSB1
+    description: Second enumerated COM port; M4 console
+    log_sources:
+      - m4
+    default_capture: true
+    required: true
+    status: verified
+  a-core:
+    order: 3
+    interface: if02
+    by_id: usb-FTDI_Quad_RS232-HS-if02-port0
+    tty: /dev/ttyUSB2
+    description: Third enumerated COM port; U-Boot, Fastboot, Linux early boot
+    log_sources:
+      - spl
+      - u-boot
+      - fastboot
+      - linux
+    default_capture: true
+    required: true
+    status: verified
+  scfw:
+    order: 4
+    interface: if03
+    by_id: usb-FTDI_Quad_RS232-HS-if03-port0
+    tty: /dev/ttyUSB3
+    description: Fourth enumerated COM port; SCFW console
+    log_sources:
+      - scfw
+    default_capture: true
+    required: true
+    status: verified
+evidence:
+  verified_at: "2026-07-24"
+  case: ../../../../work/2026-07-23-imx8dxl-power-mode-ocram-suspend
+  session: logs/v4-download-reset-serial-session.txt
+  bcu_reset_scope_case: ../../../../work/2026-07-24-imx8dxl-bcu-reset-serial-scope
+  bcu_reset_scope_session: logs/bcu-reset-current-boot-serial-session.yaml
+host_hazards:
+  - ModemManager can disturb FT4232H ports.
+  - ttyUSB0 and ttyUSB1 can silently fall back to 9600 after re-enumeration.
+  - BCU board access uses FT4232H channel 1 and can detach if01, which is also the M4 console.
+  - Never run BCU while capturing M4 early log on if01.
+  - BCU reset is allowed when capture explicitly excludes M4 and selects only a-core/if02 and scfw/if03; this was validated three times on the current B0 LPDDR4 specimen.
+  - After BCU exits, fresh-probe all four interfaces and recover if01 before any later M4 capture.
+  - Use the physical RESET button when M4 early log is required.
