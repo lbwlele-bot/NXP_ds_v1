@@ -1,6 +1,6 @@
 # GitHub 轻量同步
 
-仓库：`https://github.com/lbwlele-bot/NXP_ds_v1`，默认分支 `main`，私有。
+仓库：`https://github.com/lbwlele-bot/NXP_ds_v1`，默认分支 `main`，公开。
 本地 Git 根：`/home/ives/桌面/NXP_ds_v1`。
 与 Codex 的 `lbwlele-bot/nxp_ivesliu_skill` 独立，不把两套环境的修改互相覆盖。
 
@@ -23,7 +23,7 @@
 
 排除项由 `.gitignore` 管理。不得通过 `git add -f` 上传凭据、case 或重资源。
 提交前审查完整暂存清单及差异；修改忽略规则后重新核查。
-私有仓库仍不能存放 API key。
+仓库公开可读，不得存放 API key 或其他敏感内容。
 
 ## 在其他机器恢复时
 

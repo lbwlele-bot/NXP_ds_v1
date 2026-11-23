@@ -1,6 +1,6 @@
 # NXP_ds_v1
 
-独立轻量仓库：`https://github.com/lbwlele-bot/NXP_ds_v1`（私有）。
+独立轻量仓库：`https://github.com/lbwlele-bot/NXP_ds_v1`（公开）。
 同步范围及恢复前提见 [GitHub 同步说明](GITHUB_SYNC.md)。本仓库不是整机备份；
 下文“已安装/已配置”和 case 链接描述原本机环境，不代表 clone 后已具备运行条件。
 
